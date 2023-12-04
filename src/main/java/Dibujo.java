@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -15,6 +16,7 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
     private int xActual, yActual;
     private JTextField cuadroTexto;
     private Figura figuraTextoActual;
+    //private ArrayList<Figura> figuraArrayList = new ArrayList<>();
 
     /**
      * Constructor de la clase Dibujo.
@@ -27,6 +29,10 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         addMouseListener(this);
         addMouseMotionListener(this);
 
+
+
+        figuras = cargar();
+
         cuadroTexto = new JTextField();
         cuadroTexto.setBounds(10, 10, 100, 20);
         cuadroTexto.setVisible(false);
@@ -37,6 +43,12 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
             cuadroTexto.setVisible(false);
             repaint();
         });
+
+
+
+
+
+
 
         add(cuadroTexto);
     }
@@ -129,7 +141,7 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
     }
 
     public void mouseReleased(MouseEvent e) {
-        // No se realiza ninguna acción al soltar el ratón
+        guardar();
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -205,6 +217,7 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
             }
         }
         return shape;
+
     }
 
     /**
@@ -418,6 +431,7 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
     private Figura crearTexto(int x, int y, String texto, Color color, int grosor) {
         Font font = new Font("Arial", Font.PLAIN, 12);
         Rectangle2D rectangulo = new Rectangle2D.Float(x, y, 0, 0);
+        //guardar();
         return new Figura(rectangulo, color, texto, font);
     }
 
@@ -437,5 +451,25 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
     public void reiniciar() {
         figuras.clear();
         repaint();
+    }
+
+
+    private ArrayList<Figura> cargar() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Figuras.ser"))) {
+            return (ArrayList<Figura>) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            // Si no se puede cargar, retornar una nueva lista
+            return new ArrayList<>();
+        }
+    }
+
+
+    public void guardar() {
+        try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("Figuras.ser"))) {
+            salida.writeObject(figuras);
+            System.out.println("Figura guardada correctamente");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

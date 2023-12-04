@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Clase que representa una figura dibujada en el lienzo.
  */
-public class Figura {
+public class Figura implements Serializable {
     private Shape shape;
     private Color color;
     private String texto;

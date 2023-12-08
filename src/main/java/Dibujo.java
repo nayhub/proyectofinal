@@ -11,7 +11,7 @@ import javax.swing.*;
 public class Dibujo extends JPanel implements MouseListener, MouseMotionListener {
 
     private VentanaPrincipal nucleo;
-    private ArrayList<Figura> figuras = new ArrayList<>();
+    private ArrayList<Figura> figuras;
     private int xInicial, yInicial;
     private int xActual, yActual;
     private JTextField cuadroTexto;
@@ -504,5 +504,9 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Figura> getFiguras(){
+        return figuras;
     }
 }

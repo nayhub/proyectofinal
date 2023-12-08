@@ -93,5 +93,15 @@ public class Figura implements Serializable {
     public boolean getDash(){
         return dash;
     }
+    /**
+     * Verifica si el punto especificado por las coordenadas (px, py) está dentro de la figura.
+     *
+     * @param px Coordenada x del punto.
+     * @param py Coordenada y del punto.
+     * @return true si el punto está dentro de la figura, false de lo contrario.
+     */
+    public boolean contienePunto(int px, int py) {
+        return shape.getBounds().contains(px, py);
+    }
 
 }

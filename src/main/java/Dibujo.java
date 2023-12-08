@@ -16,6 +16,8 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
     private int xActual, yActual;
     private JTextField cuadroTexto;
     private Figura figuraTextoActual;
+    private Figura selectedShape;
+    private boolean modo;
     //private ArrayList<Figura> figuraArrayList = new ArrayList<>();
 
     /**
@@ -43,12 +45,6 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
             cuadroTexto.setVisible(false);
             repaint();
         });
-
-
-
-
-
-
 
         add(cuadroTexto);
     }
@@ -117,21 +113,32 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         // Crear la figura correspondiente según la opción seleccionada
         if (opcion.equals("LINEA")) {
             figura = crearLinea(xInicial, yInicial, xActual, yActual, nucleo.getColor(), true);
+            modo = false;
         } else if (opcion.equals("RECTANGULO")) {
             figura = crearRectangulo(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("AGREGACION")) {
             figura = crearFlecha(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("COMPOSICION")) {
             figura = crearFlecha2(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("DEPENDENCIA")) {
             figura = crearFlecha3(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("GENERALIZACION")) {
             figura = crearFlecha4(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("REALIZACION")) {
             figura = crearFlecha5(xInicial, yInicial, xActual, yActual, nucleo.getColor());
+            modo = false;
         } else if (opcion.equals("TEXTO")) {
+            modo = false;
             activarCuadroTexto();
             return;
+        }else if (opcion.equals("BORRADOR")){
+
+            modo = true;
         }
 
         if (figura != null) {
@@ -140,12 +147,16 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         }
     }
 
+
+
     public void mouseReleased(MouseEvent e) {
         guardar();
     }
 
     public void mouseClicked(MouseEvent e) {
-        // No se realiza ninguna acción al hacer clic
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            eliminarFiguraEnPosicion(e.getX(), e.getY());
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -435,6 +446,7 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         return new Figura(rectangulo, color, texto, font);
     }
 
+
     /**
      * Deshace la última figura agregada.
      */
@@ -452,6 +464,27 @@ public class Dibujo extends JPanel implements MouseListener, MouseMotionListener
         figuras.clear();
         repaint();
     }
+    /**
+     * Elimina la figura en la posición del clic.
+     *
+     * @param x Coordenada x del clic.
+     * @param y Coordenada y del clic.
+     */
+    public void eliminarFiguraEnPosicion(int x, int y) {
+        Figura figuraAEliminar = null;
+        for (Figura figura : figuras) {
+            if (figura.contienePunto(x, y)) {
+                figuraAEliminar = figura;
+                break;
+            }
+        }
+
+        if (figuraAEliminar != null) {
+            figuras.remove(figuraAEliminar);
+            repaint();
+        }
+    }
+
 
 
     private ArrayList<Figura> cargar() {

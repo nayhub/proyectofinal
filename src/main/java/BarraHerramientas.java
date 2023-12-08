@@ -22,6 +22,7 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
     private JToggleButton botonRealizacion;
     private JToggleButton botonRectangulo;
     private JToggleButton botonTexto; // Botón para la opción de cuadro de texto
+    private JToggleButton botonBorrador;
 
     private Dibujo dibujo; // Referencia al objeto Dibujo
 
@@ -76,6 +77,11 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         botonTexto.setBackground(Color.white);
         botonTexto.setFocusable(false);
 
+        botonBorrador = new JToggleButton();
+        botonBorrador.setBackground(Color.WHITE);
+        botonBorrador.setFocusable(false);
+
+
         ImageIcon icono = crearImageIcon("asociacion.png");
         Image imagen = icono.getImage();
         Image nuevaImagen = imagen.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -124,14 +130,14 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         ImageIcon nuevoIcono8 = new ImageIcon(nuevaImagen8);
         botonTexto.setIcon(nuevoIcono8);
 
-        //botonLinea.setIcon(crearImageIcon("asociacion.png"));
-        //botonAgregacion.setIcon(crearImageIcon("agregacion.png"));
-        //botonComposicion.setIcon(crearImageIcon("composicion.png"));
-        //botonDependencia.setIcon(crearImageIcon("dependencia.png"));
-        //botonGeneralizacion.setIcon(crearImageIcon("generalizacion.jpg"));
-        //botonRealizacion.setIcon(crearImageIcon("realizacion.png"));
-        //botonRectangulo.setIcon(crearImageIcon("rectangulo.png"));
-        //botonTexto.setIcon(crearImageIcon("texto.png"));
+
+        ImageIcon icono9 = crearImageIcon("goma.png");
+        Image imagen9 = icono9.getImage();
+        Image nuevaImagen9 = imagen9.getScaledInstance(25,25,Image.SCALE_SMOOTH);
+        ImageIcon nuevoIcono9 = new ImageIcon(nuevaImagen9);
+        botonBorrador.setIcon(nuevoIcono9);
+
+
 
         botonLinea.addActionListener(this);
         botonAgregacion.addActionListener(this);
@@ -141,6 +147,7 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         botonRealizacion.addActionListener(this);
         botonRectangulo.addActionListener(this);
         botonTexto.addActionListener(this);
+        botonBorrador.addActionListener(this);
 
 
         add(botonLinea);
@@ -152,6 +159,7 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         add(botonRealizacion);
         add(botonRectangulo);
         add(botonTexto);
+        add(botonBorrador);
 
     }
     private void notificarObservadores() {
@@ -184,7 +192,11 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         } else if (e.getSource() == botonTexto) { // Opción para activar el cuadro de texto
             opcion = "TEXTO";
             dibujo.activarCuadroTexto();
+        } else if (e.getSource() == botonBorrador){
+            opcion = "BORRADOR";
+
         }
+
         notificarObservadores(); // Notificar a los observadores que se ha producido un cambio
         actualizarEstadoBotones();
     }
@@ -210,6 +222,7 @@ public class BarraHerramientas extends JToolBar implements ActionListener {
         botonGeneralizacion.setSelected(opcion.equals("GENERALIZACION"));
         botonRealizacion.setSelected(opcion.equals("REALIZACION"));
         botonTexto.setSelected(opcion.equals("TEXTO")); // Actualizar estado del botón de cuadro de texto
+        botonBorrador.setSelected(opcion.equals("BORRADOR"));
     }
 
     /**

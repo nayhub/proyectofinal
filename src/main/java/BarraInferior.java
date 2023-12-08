@@ -48,7 +48,7 @@ public class BarraInferior extends JPanel implements ActionListener {
             botonColor.setFocusable(false);
         }
     }
-    private String getNombreColor(Color color) {
+    String getNombreColor(Color color) {
         String[] nombresColores = {"Negro", "Azul", "Verde", "Rosa", "Cian", "Rojo", "Amarillo", "Naranja", "Magenta"};
         int[] codigosRGB = {Color.BLACK.getRGB(), Color.BLUE.getRGB(), Color.GREEN.getRGB(), Color.PINK.getRGB(),
                 Color.CYAN.getRGB(), Color.RED.getRGB(), Color.YELLOW.getRGB(), Color.ORANGE.getRGB(), Color.MAGENTA.getRGB()};

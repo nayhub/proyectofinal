@@ -39,3 +39,5 @@ Bugs:
 -El texto suele tener problemas para crearse exactamente en la posición que uno selecciona inicialmente.
 -En la parte de Archivos del menú los botones Guardar, Proyectos y Abrir no hacen nada.
 -La goma a veces crea un cuadrado al ser selccionada si no hay nada que borrar. 
+-La goma no suele borrar texto, este ultimo caso es aleatorio, hay veces en que lo hace otras no. 
+
